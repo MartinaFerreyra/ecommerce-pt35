@@ -1,0 +1,202 @@
+/* ---------- Panel ---------- */
+.carrito-panel {
+  position: fixed;                        /* flota sobre la página */
+  top: 0;
+  right: 0;
+  width: 380px;                           /* ancho del panel */
+  max-width: 100%;                        /* en celular, no se pasa de la pantalla */
+  height: 100%;                           /* alto completo */
+  background: white;
+  box-shadow: -4px 0 16px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;                 /* header, lista y footer uno debajo del otro */
+  z-index: 100;
+  font-family: var(--fuente-texto);
+}
+
+.carrito-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.carrito-header h3 {
+  margin: 0;
+  font-family: var(--fuente-titulo);
+  font-weight: 500;
+  font-size: 1.4rem;
+}
+
+.carrito-x {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.carrito-vacio {
+  padding: 20px;
+  color: #777;
+}
+
+/* ---------- Lista ---------- */
+.carrito-lista {
+  list-style: none;
+  margin: 0;
+  padding: 0 20px;
+  flex: 1;                                /* ocupa el espacio del medio */
+  overflow-y: auto;                       /* scroll si hay muchas joyas */
+}
+
+.carrito-item {
+  display: flex;
+  gap: 14px;
+  padding: 16px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.carrito-img {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 6px;
+  background: #f2f2f2;
+}
+
+.carrito-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.carrito-fila {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.carrito-nombre {
+  font-weight: 500;
+}
+
+.carrito-eliminar {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  opacity: 0.6;
+}
+
+.carrito-eliminar:hover {
+  opacity: 1;
+}
+
+.carrito-categoria {
+  font-size: 0.75rem;
+  text-transform: uppercase;              /* COLLARES */
+  letter-spacing: 1px;
+  color: #c9a96e;                         /* dorado */
+}
+
+.carrito-descripcion {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #777;
+  display: -webkit-box;                   /* corta la descripción... */
+  -webkit-line-clamp: 2;                  /* ...en 2 líneas */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.carrito-precio {
+  font-weight: 500;
+}
+
+/* ---------- Botones − 1 + ---------- */
+.carrito-cantidad {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.carrito-cantidad button {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: #2f2f2f;                    /* oscuro, como tu barra de categorías */
+  color: white;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.carrito-cantidad button:disabled {
+  background: #aaa;                       /* gris cuando no se puede sumar más */
+  cursor: not-allowed;
+}
+
+.carrito-cantidad span {
+  width: 36px;
+  text-align: center;
+}
+
+/* ---------- Footer ---------- */
+.carrito-footer {
+  padding: 20px;
+  border-top: 1px solid #eee;
+}
+
+.carrito-subtotal {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.2rem;
+  margin-bottom: 6px;
+}
+
+.carrito-nota {
+  font-size: 0.85rem;
+  color: #777;
+  margin: 0 0 16px;
+}
+
+.carrito-finalizar {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 4px;
+  background: black;
+  color: white;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.carrito-vaciar {
+  width: 100%;
+  margin-top: 8px;
+  padding: 10px;
+  border: none;
+  background: none;
+  color: #777;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.carrito-finalizar:disabled,
+.carrito-vaciar:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.carrito-panel.como-pagina {
+  position: static;                  /* deja de flotar: es parte de la página */
+  width: 100%;
+  max-width: 720px;
+  height: auto;
+  margin: 30px auto;
+  border: 1px solid #eee;
+  border-radius: var(--radio);
+  box-shadow: none;
+}

@@ -1,0 +1,108 @@
+.producto-form {
+  max-width: 600px;
+  background: white;
+  border: 1px solid #e0d6c2;
+  border-radius: var(--radio);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;              /* campos uno debajo del otro */
+  gap: 16px;
+}
+
+.producto-form h2 {
+  margin: 0;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;              /* título arriba, input abajo */
+  gap: 6px;
+  font-size: 0.9rem;
+  color: #555;
+  flex: 1;
+}
+
+.campo input,
+.campo select,
+.campo textarea {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+  outline: none;
+  border-color: #c9a96e;               /* dorado al escribir */
+}
+
+.con-error input,
+.con-error select,
+.con-error textarea {
+  border-color: #a32d2d;               /* rojo si el campo tiene error */
+}
+
+.campo-error {
+  color: #a32d2d;                      /* mensaje de error en rojo */
+  font-size: 0.85rem;
+}
+
+.form-fila {
+  display: flex;                       /* precio y stock lado a lado */
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.form-preview {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #eee;
+}
+
+.form-botones {
+  display: flex;
+  justify-content: flex-end;           /* botones a la derecha */
+  align-items: center;
+  gap: 16px;
+}
+
+.form-cancelar {
+  color: #777;
+  text-decoration: none;
+}
+
+.admin-estado {
+  padding: 40px;
+  text-align: center;
+  background: white;
+  border: 1px solid #e0d6c2;
+  border-radius: var(--radio);
+}
+
+.admin-error {
+  color: #a32d2d;
+}
+
+.admin-btn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  background: #2f2f2f;
+  color: white;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.admin-btn:hover:not(:disabled) {
+  background: #c9a96e;
+}
+
+.admin-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

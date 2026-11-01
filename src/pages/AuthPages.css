@@ -1,0 +1,11 @@
+a.admin-item {
+  display: block;                      /* ocupa todo el ancho, como una tarjeta */
+  color: inherit;                      /* sin el azul de los links */
+  text-decoration: none;               /* sin subrayado */
+  transition: border-color 0.2s, background 0.2s;
+}
+
+a.admin-item:hover {
+  border-color: #c9a96e;               /* borde dorado al pasar el mouse */
+  background: #f3ede1;
+}

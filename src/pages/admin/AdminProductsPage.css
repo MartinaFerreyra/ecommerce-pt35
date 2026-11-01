@@ -1,0 +1,112 @@
+.admin-encabezado {
+  display: flex;
+  justify-content: space-between;      /* título a la izquierda, botón a la derecha */
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.admin-encabezado h2 {
+  margin: 0;
+}
+
+.admin-btn {
+  display: inline-block;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  background: #2f2f2f;
+  color: white;
+  text-decoration: none;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.admin-btn:hover {
+  background: #c9a96e;
+}
+
+.admin-estado {
+  padding: 40px;
+  text-align: center;
+  background: white;
+  border: 1px solid #e0d6c2;
+  border-radius: var(--radio);
+}
+
+.admin-error {
+  color: #a32d2d;
+}
+
+.tabla-scroll {
+  overflow-x: auto;                    /* scroll horizontal si no entra */
+  margin-top: 16px;
+  background: white;
+  border: 1px solid #e0d6c2;
+  border-radius: var(--radio);
+}
+
+.admin-tabla {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-tabla th,
+.admin-tabla td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.admin-tabla th {
+  background: #faf7f1;
+  font-weight: 500;
+  color: #555;
+}
+
+.tabla-img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.tabla-categoria {
+  text-transform: capitalize;          /* "collares" → "Collares" */
+}
+
+.tabla-acciones {
+  display: flex;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.accion-editar,
+.accion-eliminar {
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.accion-editar {
+  border: 1px solid #c9a96e;
+  color: #8a6d3b;
+}
+
+.accion-eliminar {
+  border: 1px solid #e3a5a5;
+  background: white;
+  color: #a32d2d;
+}
+
+.accion-eliminar:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.fila-borrando {
+  opacity: 0.4;                        /* la fila que se está borrando/guardando se apaga */
+}

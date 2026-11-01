@@ -1,0 +1,19 @@
+.favorito-agregar {
+  margin-top: 6px;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  background: #2f2f2f;              /* oscuro */
+  color: white;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.favorito-agregar:hover:not(:disabled) {
+  background: #c9a96e;              /* dorado al pasar el mouse */
+}
+
+.favorito-agregar:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}

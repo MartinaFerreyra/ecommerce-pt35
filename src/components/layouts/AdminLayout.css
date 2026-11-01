@@ -1,0 +1,73 @@
+/* ---------- Marco del panel: menú + contenido ---------- */
+.admin-layout {
+  display: flex;                       /* menú a la izquierda, contenido a la derecha */
+  gap: 24px;
+  align-items: flex-start;             /* los dos arrancan arriba */
+  max-width: 1100px;                   /* 🆕 ancho máximo del panel */
+  margin: 20px auto;                   /* 🆕 auto = centrado en la pantalla */
+  padding: 0 16px;                     /* 🆕 aire a los costados */
+  box-sizing: border-box;
+}
+
+/* ---------- Menú lateral ---------- */
+.admin-sidebar {
+  width: 220px;
+  flex-shrink: 0;                      /* el menú no se achica */
+  background: white;
+  border: 1px solid #e0d6c2;
+  border-radius: var(--radio);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.admin-sidebar h3 {
+  margin-top: 0;
+  text-align: center;                  /* 🆕 título centrado */
+  font-family: var(--fuente-titulo);
+}
+
+.admin-sidebar nav {
+  display: flex;
+  flex-direction: column;              /* links uno debajo del otro */
+  gap: 6px;
+}
+
+.admin-sidebar a {
+  padding: 8px 12px;
+  border-radius: 6px;
+  color: #444;
+  text-align: center;                  /* 🆕 links centrados */
+  text-decoration: none;
+}
+
+.admin-sidebar a:hover {
+  background: #f3ede1;
+}
+
+.admin-sidebar a.active {
+  background: #c9a96e;                 /* la página actual en dorado */
+  color: white;
+}
+
+/* ---------- Contenido (donde aparece cada página) ---------- */
+.admin-contenido {
+  flex: 1;                             /* ocupa el resto del ancho */
+  min-width: 0;                        /* deja que la tabla haga scroll si no entra */
+}
+
+.admin-contenido > * {
+  width: 100%;                         /* 🆕 cada página ocupa todo el ancho disponible */
+  max-width: none;                     /* 🆕 (el formulario tenía un máximo de 600px) */
+  box-sizing: border-box;
+}
+
+/* ---------- Celular / pantalla angosta ---------- */
+@media (max-width: 700px) {
+  .admin-layout {
+    flex-direction: column;            /* menú arriba, contenido abajo */
+    align-items: stretch;              /* 🆕 los dos se estiran al mismo ancho */
+  }
+  .admin-sidebar {
+    width: 100%;                       /* menú de lado a lado */
+  }
+}

@@ -1,0 +1,56 @@
+.filtros-panel {
+  background: white;                       /* recuadro blanco */
+  border: 1px solid #e0d6c2;               /* borde dorado suave */
+  border-radius: var(--radio);
+  padding: 20px;
+  margin-bottom: var(--espacio);
+}
+
+.filtros-fila {
+  display: flex;                           /* controles en fila */
+  flex-wrap: wrap;                         /* en celular bajan de línea */
+  gap: 20px;
+  align-items: flex-end;                   /* alineados abajo (con el botón) */
+}
+
+.filtro-campo {
+  display: flex;
+  flex-direction: column;                  /* título arriba, control abajo */
+  gap: 6px;
+  flex: 1;                                 /* reparten el ancho */
+  min-width: 180px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.filtro-campo input,
+.filtro-campo select {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 1rem;
+  background: white;
+}
+
+.filtro-campo input:focus,
+.filtro-campo select:focus {
+  outline: none;
+  border-color: #c9a96e;                   /* dorado al hacer clic */
+}
+
+.filtros-limpiar {
+  flex: 1;
+  min-width: 180px;
+  padding: 11px;
+  border: 1px solid #c9a96e;
+  border-radius: 6px;
+  background: white;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.filtros-limpiar:hover {
+  background: #c9a96e;                     /* dorado al pasar el mouse */
+  color: white;
+}

@@ -1,0 +1,86 @@
+/* ---------- Encabezado: título + sesión ---------- */
+.header {
+  background: white;
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  padding: 16px 24px;
+  margin: 20px auto;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;          /* título izquierda, contadores derecha */
+  align-items: center;
+}
+
+.logo {
+  text-decoration: none;
+  color: inherit;
+}
+
+.logo h1 {
+  font-family: 'Playwrite ZA', cursive;    /* tu fuente */
+  font-weight: 300;
+  margin: 0;
+}
+
+.header-iconos {
+  display: flex;
+  gap: 16px;
+}
+
+.icono {
+  text-decoration: none;
+  color: #333;
+  font-size: 1.1rem;
+}
+
+.icono:first-child {
+  color: #d4537e;                          /* corazón rosa */
+}
+
+.header-nav {
+  display: flex;
+  justify-content: space-between;          /* páginas izquierda, sesión derecha */
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.nav-izquierda,
+.nav-derecha {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.header-nav a,
+.nav-boton {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  background: none;
+  color: #444;
+  text-decoration: none;
+  font-family: inherit;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.header-nav a:hover,
+.nav-boton:hover {
+  background: #f3ede1;                     /* dorado clarito */
+}
+
+.header-nav a.active {
+  background: #c9a96e;                     /* página actual en dorado */
+  color: white;
+}
+
+.saludo {
+  color: #777;
+  font-size: 0.9rem;
+  margin-right: 6px;
+}

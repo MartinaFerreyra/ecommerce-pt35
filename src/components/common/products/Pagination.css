@@ -1,0 +1,26 @@
+.paginacion {
+  display: flex;                    /* botones en fila */
+  justify-content: center;          /* centrados */
+  align-items: center;              /* alineados verticalmente */
+  gap: 20px;                        /* espacio entre botones */
+  margin: var(--espacio) 0;         /* separación arriba y abajo */
+}
+
+.paginacion button {
+  padding: 8px 16px;                /* tamaño del botón */
+  border: 1px solid #c9a96e;        /* borde dorado */
+  border-radius: 20px;              /* forma de píldora */
+  background: white;                /* fondo blanco */
+  font-family: inherit;             /* misma letra que la página */
+  cursor: pointer;                  /* manito al pasar el mouse */
+}
+
+.paginacion button:hover:not(:disabled) {
+  background: #c9a96e;              /* dorado al pasar el mouse */
+  color: white;                     /* texto blanco */
+}
+
+.paginacion button:disabled {
+  opacity: 0.4;                     /* apagado cuando no se puede */
+  cursor: not-allowed;              /* cursor de "prohibido" */
+}

@@ -1,0 +1,38 @@
+.product-grid {
+  list-style: none;                                            /* ← saca los puntos */
+  margin: 0;
+  padding: 0;
+  display: grid;                                               /* tarjetas en grilla */
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); /* una al lado de la otra */
+  gap: var(--espacio);                                         /* espacio entre tarjetas */
+}
+
+.product-grid li {
+  display: flex;                                               /* tarjetas del mismo alto */
+}
+
+.product-grid .article {
+  flex: 1;
+}
+
+.filtros {
+  display: flex;                 /* botones en fila */
+  justify-content: center;       /* centrados */
+  gap: 10px;                     /* espacio entre botones */
+  margin-bottom: var(--espacio); /* separados de la grilla */
+  flex-wrap: wrap;               /* en celular, si no entran, bajan de línea */
+}
+
+.filtro {
+  padding: 8px 16px;
+  border: 1px solid #c9a96e;     /* borde dorado */
+  border-radius: 20px;           /* forma de píldora */
+  background: white;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.filtro.activo {                 /* el botón elegido */
+  background: #c9a96e;           /* fondo dorado */
+  color: white;                  /* texto blanco */
+}

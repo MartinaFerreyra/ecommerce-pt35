@@ -1,0 +1,30 @@
+.category-bar {
+  display: flex;                     /* botones en fila */
+  justify-content: center;           /* centrados */
+  gap: 30px;                         /* espacio entre botones */
+  padding: 12px 20px;
+  margin: 0 auto var(--espacio);     /* separada de lo de abajo */
+  background-color: #2f2f2f;         /* barra oscura (cambiá el color si querés) */
+  border-radius: var(--radio);
+  flex-wrap: wrap;                   /* en celular baja de línea si no entra */
+}
+
+.category-btn {
+  background: none;                  /* sin fondo */
+  border: none;                      /* sin borde */
+  color: #e5e5e5;                    /* texto claro sobre fondo oscuro */
+  font-family: var(--fuente-titulo); /* fuente elegante de tus títulos */
+  font-size: 1.1rem;
+  cursor: pointer;                   /* manito al pasar el mouse */
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent; /* línea invisible que aparece al elegir */
+}
+
+.category-btn:hover {
+  color: #c9a96e;                    /* dorado al pasar el mouse */
+}
+
+.category-btn.activo {
+  color: #c9a96e;                    /* la elegida en dorado */
+  border-bottom: 2px solid #c9a96e;  /* con línea dorada abajo */
+}
