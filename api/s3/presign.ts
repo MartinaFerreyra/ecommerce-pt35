@@ -3,7 +3,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node'    // tipos de
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3'     // la orden "subir un archivo a S3"
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'        // firma el permiso temporal
 import { randomUUID } from 'node:crypto'                             // nombres únicos para cada foto
-import { adminAuth, adminDb } from '../_lib/firebaseAdmin'           // verificar usuario y rol
+import { adminAuth, adminDb } from '../_lib/firebaseAdmin.js'        // verificar usuario y rol
 
 const TIPOS_PERMITIDOS: Record<string, string> = {                   // solo imágenes (tipo → extensión)
   'image/jpeg': 'jpg',
