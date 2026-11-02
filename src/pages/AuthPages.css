@@ -1,11 +1,135 @@
-a.admin-item {
-  display: block;                      /* ocupa todo el ancho, como una tarjeta */
-  color: inherit;                      /* sin el azul de los links */
-  text-decoration: none;               /* sin subrayado */
-  transition: border-color 0.2s, background 0.2s;
+/* src/pages/AuthPages.css */
+
+/* ===== Tarjeta blanca centrada ===== */
+.auth-card {
+  max-width: 420px;                                   /* ancho máximo de la tarjeta */
+  margin: 40px auto;                                  /* separada arriba/abajo y centrada */
+  padding: 36px 32px;                                 /* aire adentro de la tarjeta */
+  background: #ffffff;                                /* fondo blanco como el header */
+  border-radius: 12px;                                /* esquinas redondeadas como el header */
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);         /* sombra suave */
+  text-align: center;                                 /* centra título y textos */
 }
 
-a.admin-item:hover {
-  border-color: #c9a96e;               /* borde dorado al pasar el mouse */
-  background: #f3ede1;
+/* ===== Título "🔑 Ingresar" ===== */
+.auth-card h2 {
+  margin: 0 0 24px;                                   /* espacio solo abajo */
+  font-size: 1.8rem;                                  /* título más grande */
+  font-weight: 500;                                   /* grosor medio, elegante */
+}
+
+/* ===== Formulario: un campo debajo del otro ===== */
+.auth-card form {
+  display: flex;                                      /* activa flexbox */
+  flex-direction: column;                             /* apila los campos en columna */
+  gap: 16px;                                          /* espacio entre cada campo */
+}
+
+/* ===== Etiqueta (Email, Contraseña) arriba del input ===== */
+.auth-card label {
+  display: flex;                                      /* flexbox para la etiqueta */
+  flex-direction: column;                             /* texto arriba, input abajo */
+  gap: 6px;                                           /* espacio entre texto e input */
+  text-align: left;                                   /* etiqueta alineada a la izquierda */
+  font-size: 0.95rem;                                 /* letra un poco más chica */
+  color: #555;                                        /* gris suave */
+}
+
+/* ===== Cajas de texto ===== */
+.auth-card input {
+  padding: 12px 14px;                                 /* input alto y cómodo */
+  font-size: 1rem;                                    /* letra legible */
+  border: 1px solid #ddd;                             /* borde gris clarito */
+  border-radius: 8px;                                 /* esquinas redondeadas */
+  background: #fafafa;                                /* fondo apenas gris */
+  transition: border-color 0.2s, box-shadow 0.2s;     /* animación suave al enfocar */
+}
+
+/* ===== Input cuando hacés clic adentro ===== */
+.auth-card input:focus {
+  outline: none;                                      /* saca el borde negro por defecto */
+  border-color: #c9a66b;                              /* borde dorado */
+  box-shadow: 0 0 0 3px rgba(201, 166, 107, 0.2);     /* halo dorado suave */
+  background: #fff;                                   /* fondo blanco al escribir */
+}
+
+/* ===== Botón principal "Ingresar" (dorado) ===== */
+.auth-btn {
+  margin-top: 8px;                                    /* separado del último input */
+  padding: 12px;                                      /* botón alto */
+  font-size: 1rem;                                    /* letra legible */
+  color: #fff;                                        /* texto blanco */
+  background: #c9a66b;                                /* dorado como el menú */
+  border: none;                                       /* sin borde */
+  border-radius: 8px;                                 /* esquinas redondeadas */
+  cursor: pointer;                                    /* manito al pasar el mouse */
+  transition: background 0.2s;                        /* cambio de color suave */
+}
+
+/* ===== Botón dorado al pasar el mouse ===== */
+.auth-btn:hover:not(:disabled) {
+  background: #b8925a;                                /* dorado un poco más oscuro */
+}
+
+/* ===== Botón "Ingresar con Google" (blanco con borde) ===== */
+.auth-google {
+  width: 100%;                                        /* ocupa todo el ancho */
+  margin-top: 12px;                                   /* separado del botón dorado */
+  padding: 12px;                                      /* mismo alto que el otro botón */
+  font-size: 1rem;                                    /* letra legible */
+  color: #333;                                        /* texto oscuro */
+  background: #fff;                                   /* fondo blanco */
+  border: 1px solid #ddd;                             /* borde gris */
+  border-radius: 8px;                                 /* esquinas redondeadas */
+  cursor: pointer;                                    /* manito al pasar el mouse */
+  transition: background 0.2s;                        /* cambio de color suave */
+}
+
+/* ===== Botón Google al pasar el mouse ===== */
+.auth-google:hover:not(:disabled) {
+  background: #f5f5f5;                                /* gris muy clarito */
+}
+
+/* ===== Botones mientras se envía ===== */
+.auth-btn:disabled,
+.auth-google:disabled {
+  opacity: 0.6;                                       /* se ven apagados */
+  cursor: not-allowed;                                /* cursor de "no se puede" */
+}
+
+/* ===== Mensaje de error (rojo suave) ===== */
+.auth-error {
+  margin: 0;                                          /* sin márgenes extra */
+  padding: 10px;                                      /* aire adentro */
+  font-size: 0.9rem;                                  /* letra chica */
+  color: #b3261e;                                     /* rojo */
+  background: #fdecea;                                /* fondo rosado clarito */
+  border-radius: 8px;                                 /* esquinas redondeadas */
+}
+
+/* ===== Texto "¿No tenés cuenta? Registrarse" ===== */
+.auth-card p:last-child {
+  margin: 20px 0 0;                                   /* separado de los botones */
+  font-size: 0.95rem;                                 /* letra un poco más chica */
+  color: #666;                                        /* gris */
+}
+
+/* ===== Link "Registrarse" / "Ingresar" ===== */
+.auth-card a {
+  color: #c9a66b;                                     /* dorado en vez de violeta */
+  font-weight: 600;                                   /* en negrita */
+  text-decoration: none;                              /* sin subrayado */
+}
+
+/* ===== Link al pasar el mouse ===== */
+.auth-card a:hover {
+  text-decoration: underline;                         /* subrayado solo al pasar */
+}
+
+/* ===== Celular ===== */
+@media (max-width: 480px) {
+  .auth-card {
+    margin: 20px 16px;                                /* deja margen a los costados */
+    padding: 28px 20px;                               /* menos aire adentro */
+  }
 }
