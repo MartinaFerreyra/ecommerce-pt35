@@ -133,3 +133,10 @@
     padding: 28px 20px;                               /* menos aire adentro */
   }
 }
+
+/* ===== Botón de la página de Inicio: debajo del texto ===== */
+.auth-card > a {
+  display: inline-block;                              /* respeta el relleno sin encimarse */
+  margin-top: 20px;                                   /* separado del texto de arriba */
+  color: #fff;                                        /* texto blanco sobre el dorado */
+}
