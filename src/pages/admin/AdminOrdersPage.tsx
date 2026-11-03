@@ -1,31 +1,44 @@
 //src/pages/admin/AdminOrdersPage.tsx
 import './AdminProductsPage.css'                                           // mismos estilos de tabla
-import { useEffect, useState } from 'react'
+import '../../components/orders/Orders.css'                               // etiquetas de estado
+import { useEffect, useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { getAllOrders, updateOrderStatus } from '../../services/ordersService'
+import { ORDER_STATUS_LABELS } from '../../types/Order'                    // textos en español
 import type { Order, OrderStatus } from '../../types/Order'
+import { formatDate, formatPrice } from '../../utils/format'
+import { OrderStatusBadge } from '../../components/orders/OrderStatusBadge' // etiqueta de color
 
-const ESTADOS: { valor: OrderStatus; texto: string }[] = [                 // opciones del desplegable
-  { valor: 'pending', texto: 'Pendiente' },
-  { valor: 'paid', texto: 'Pagado' },
-  { valor: 'shipped', texto: 'Enviado' },
-  { valor: 'cancelled', texto: 'Cancelado' },
-]
+const ESTADOS = Object.keys(ORDER_STATUS_LABELS) as OrderStatus[]          // ['pending','paid','shipped','cancelled']
+type Filtro = OrderStatus | 'todos'                                        // filtro elegido
 
 export function AdminOrdersPage() {
-  const [orders, setOrders] = useState<Order[]>([])
+  const [orders, setOrders] = useState<Order[]>([])                        // todos los pedidos
   const [loading, setLoading] = useState(true)                             // LOADING
   const [error, setError] = useState<string | null>(null)                  // ERROR
-  const [updatingId, setUpdatingId] = useState<string | null>(null)        // UPDATING: qué pedido se está guardando
-  const [recarga, setRecarga] = useState(0)
+  const [updatingId, setUpdatingId] = useState<string | null>(null)        // cuál se está guardando
+  const [filtro, setFiltro] = useState<Filtro>('todos')                    // FILTRO por estado
+  const [recarga, setRecarga] = useState(0)                                // para reintentar
 
   useEffect(() => {
     let cancelado = false
     getAllOrders()
       .then((data) => { if (!cancelado) setOrders(data) })
-      .catch(() => { if (!cancelado) setError('No se pudieron cargar los pedidos.') })
+      .catch((err) => {
+        console.error('admin orders error:', err)
+        if (!cancelado) setError('No se pudieron cargar los pedidos.')
+      })
       .finally(() => { if (!cancelado) setLoading(false) })
     return () => { cancelado = true }
   }, [recarga])
+
+  const visibles = useMemo(                                                // pedidos que pasan el filtro
+    () => (filtro === 'todos' ? orders : orders.filter((o) => o.status === filtro)),
+    [orders, filtro],
+  )
+
+  const contar = (estado: Filtro) =>                                       // cuántos hay de cada estado
+    estado === 'todos' ? orders.length : orders.filter((o) => o.status === estado).length
 
   const reintentar = () => {
     setError(null)
@@ -36,9 +49,10 @@ export function AdminOrdersPage() {
   const cambiarEstado = async (id: string, status: OrderStatus) => {       // al cambiar el desplegable
     setUpdatingId(id)
     try {
-      await updateOrderStatus(id, status)                                  // guarda en Firestore
-      setOrders((prev) => prev.map((o) => (o.id === id ? { ...o, status } : o))) // y en la tabla
-    } catch {
+      await updateOrderStatus(id, status)                                  // guarda status + updatedAt
+      setOrders((prev) => prev.map((o) => (o.id === id ? { ...o, status, updatedAt: new Date() } : o)))
+    } catch (err) {
+      console.error('update order error:', err)
       setError('No se pudo actualizar el pedido.')
     } finally {
       setUpdatingId(null)
@@ -56,58 +70,71 @@ export function AdminOrdersPage() {
     )
   }
 
-  if (orders.length === 0) {                                               // EMPTY
-    return <p className="admin-estado">Todavía no hay pedidos.</p>
-  }
-
-  return (
+    return (
     <div>
       <div className="admin-encabezado">
-        <h2>Pedidos ({orders.length})</h2>
+        <h2>Lista de órdenes ({visibles.length})</h2>                       {/* título */}
       </div>
 
-      <div className="tabla-scroll">
-        <table className="admin-tabla">
-          <thead>
-            <tr>
-              <th>Fecha</th>
-              <th>Cliente</th>
-              <th>Joyas</th>
-              <th>Total</th>
-              <th>Estado</th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders.map((o) => (
-              <tr key={o.id} className={updatingId === o.id ? 'fila-borrando' : ''}>
-                <td>{o.createdAt?.toLocaleDateString('es-AR') ?? '—'}</td>
-                <td>
-                  {o.customerName}<br />
-                  <small>{o.userEmail}</small><br />
-                  <small>{o.address}</small>
-                </td>
-                <td>
-                  {o.items.map((item) => (
-                    <div key={item.productId}>{item.name} × {item.quantity}</div>
-                  ))}
-                </td>
-                <td>${o.total.toLocaleString('es-AR')}</td>
-                <td>
-                  <select
-                    value={o.status}
-                    onChange={(e) => cambiarEstado(o.id, e.target.value as OrderStatus)}
-                    disabled={updatingId === o.id}                         // mientras guarda, no deja tocar
-                  >
-                    {ESTADOS.map((s) => (
-                      <option key={s.valor} value={s.valor}>{s.texto}</option>
-                    ))}
-                  </select>
-                </td>
+      <select                                                              // FILTRO por estado
+        className="admin-filtro"
+        value={filtro}
+        onChange={(e) => setFiltro(e.target.value as Filtro)}
+      >
+        <option value="todos">Todas ({contar('todos')})</option>
+        {ESTADOS.map((s) => (
+          <option key={s} value={s}>{ORDER_STATUS_LABELS[s]} ({contar(s)})</option>
+        ))}
+      </select>
+
+      {visibles.length === 0 ? (                                          // EMPTY
+        <p className="admin-estado">No hay órdenes con ese estado.</p>
+      ) : (
+        <div className="tabla-scroll">
+          <table className="admin-tabla">
+            <thead>
+              <tr>
+                <th>ID</th>                                               {/* número de orden */}
+                <th>Usuario</th>                                          {/* quién compró */}
+                <th>Total</th>                                            {/* cuánto */}
+                <th>Estado</th>                                           {/* etiqueta de color */}
+                <th>Acción</th>                                           {/* cambiar estado */}
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {visibles.map((o) => (
+                <tr key={o.id} className={updatingId === o.id ? 'fila-borrando' : ''}>
+                  <td>
+                    <Link to={`/orders/${o.id}`} className="admin-id">   {/* clic → detalle */}
+                      {o.id}
+                    </Link>
+                    <br />
+                    <small>{formatDate(o.createdAt)}</small>              {/* fecha debajo */}
+                  </td>
+                  <td>
+                    {o.customerName}<br />
+                    <small>{o.userEmail}</small>                          {/* email más legible que el uid */}
+                  </td>
+                  <td>{formatPrice(o.total)}</td>
+                  <td><OrderStatusBadge status={o.status} /></td>         {/* Pendiente / Enviado... */}
+                  <td>
+                    <select
+                      className="admin-filtro"
+                      value={o.status}
+                      onChange={(e) => cambiarEstado(o.id, e.target.value as OrderStatus)}
+                      disabled={updatingId === o.id}                      // mientras guarda, bloqueado
+                    >
+                      {ESTADOS.map((s) => (
+                        <option key={s} value={s}>{ORDER_STATUS_LABELS[s]}</option>
+                      ))}
+                    </select>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   )
 }

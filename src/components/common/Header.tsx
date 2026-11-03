@@ -36,6 +36,7 @@ export function Header() {
             <NavLink to="/cart">Carrito</NavLink>
             <NavLink to="/favorites">Favoritos</NavLink>
             <NavLink to="/checkout">Pago</NavLink>
+            {isAuthenticated && <NavLink to="/orders">Mis pedidos</NavLink>}  {/* solo si está logueada */}
             <NavLink to="/admin">Admin</NavLink>           {/* el guardia controla quién entra */}
           </div>
 

@@ -16,6 +16,9 @@ import { AdminProductsPage } from '../pages/admin/AdminProductsPage'
 import { AdminOrdersPage } from '../pages/admin/AdminOrdersPage'
 import { AdminLayout } from '../components/layouts/AdminLayout'
 import { AdminUsersPage } from '../pages/admin/AdminUsersPage'
+import { MyOrdersPage } from '../pages/orders/MyOrdersPage'                       // historial
+import { OrderDetailPage } from '../pages/orders/OrderDetailPage'                 // detalle
+import { OrderConfirmationPage } from '../pages/orders/OrderConfirmationPage'     // confirmación
 
 export function AppRoutes() {
   return (
@@ -32,6 +35,9 @@ export function AppRoutes() {
           <Route path="/cart" element={<CartPage />} />
           <Route path="/favorites" element={<FavoritesPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/orders" element={<MyOrdersPage />} />                                  {/* historial */}
+          <Route path="/orders/:orderId" element={<OrderDetailPage />} />                      {/* detalle */}
+          <Route path="/orders/:orderId/confirmation" element={<OrderConfirmationPage />} />   {/* confirmación */}
         </Route>
 
         {/* Admin: */}
