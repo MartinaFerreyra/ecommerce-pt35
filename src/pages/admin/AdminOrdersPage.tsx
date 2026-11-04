@@ -8,8 +8,9 @@ import { ORDER_STATUS_LABELS } from '../../types/Order'
 import type { Order, OrderStatus } from '../../types/Order'
 import { formatDate, formatPrice } from '../../utils/format'
 import { OrderStatusBadge } from '../../components/orders/OrderStatusBadge'
+import { Spinner } from '../../components/common/Spinner'                 // círculo de carga
 
-const ESTADOS = Object.keys(ORDER_STATUS_LABELS) as OrderStatus[]          // los 5 estados
+const ESTADOS = Object.keys(ORDER_STATUS_LABELS) as OrderStatus[]          // los 4 estados
 type Filtro = OrderStatus | 'todos'
 
 export function AdminOrdersPage() {
@@ -59,7 +60,7 @@ export function AdminOrdersPage() {
     }
   }
 
-  if (loading) return <p className="admin-estado">Cargando pedidos...</p>
+  if (loading) return <Spinner texto="Cargando pedidos..." />              // LOADING
 
   if (error) {
     return (

@@ -34,11 +34,10 @@
   border-radius: 999px;
   font-size: 0.85rem;
 }
-.order-status--pending    { background: #fdf3e1; color: #8a5a00; } /* ámbar */
-.order-status--processing { background: #eeedfe; color: #3c3489; } /* violeta */
-.order-status--shipped    { background: #e6f1fb; color: #0c447c; } /* azul */
-.order-status--delivered  { background: #eaf3de; color: #27500a; } /* verde */
-.order-status--cancelled  { background: #fcebeb; color: #791f1f; } /* rojo */
+.order-status--pending    { background: #fdf3e1; color: #8a5a00; } /* ámbar: esperando */
+.order-status--processing { background: #eeedfe; color: #3c3489; } /* violeta: preparando */
+.order-status--completed  { background: #eaf3de; color: #27500a; } /* verde: terminada */
+.order-status--cancelled  { background: #fcebeb; color: #791f1f; } /* rojo: anulada */
 
 /* ===== Lista de joyas ===== */
 .order-items { list-style: none; padding: 0; margin: 16px 0; }

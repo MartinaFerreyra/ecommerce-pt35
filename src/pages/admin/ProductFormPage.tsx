@@ -1,11 +1,12 @@
 //src/pages/admin/ProductFormPage.tsx
 import './ProductFormPage.css'                                            // estilos del formulario
 import { useEffect, useState } from 'react'
-import type { ChangeEvent, FormEvent } from 'react'                       // 🆕 ChangeEvent: tipo del evento al elegir archivo
+import type { ChangeEvent, FormEvent } from 'react'                       // ChangeEvent: tipo del evento al elegir archivo
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { createProduct, getProduct, updateProduct } from '../../services/adminProductsService'
-import { uploadProductImage } from '../../services/uploadService'        // 🆕 sube la foto a S3
+import { uploadProductImage } from '../../services/uploadService'        // sube la foto a S3
 import type { ProductCategory } from '../../types/Product'
+import { Spinner } from '../../components/common/Spinner'                // círculo de carga
 
 type FormValues = {                         // lo que se escribe en el formulario (todo como texto)
   name: string
@@ -38,7 +39,7 @@ function validar(v: FormValues): Errores {
 
   if (!v.category) errores.category = 'Elegí una categoría.'
 
-  if (!v.imageUrl.trim()) errores.imageUrl = 'Subí una imagen.'                // ✏️ ahora se sube, no se escribe
+  if (!v.imageUrl.trim()) errores.imageUrl = 'Subí una imagen.'                // se sube, no se escribe
   else if (!v.imageUrl.startsWith('/') && !v.imageUrl.startsWith('http')) {
     errores.imageUrl = 'La imagen no es válida.'
   }
@@ -57,8 +58,8 @@ export function ProductFormPage() {
   const [noEncontrado, setNoEncontrado] = useState(false)                  // si el id no existe
   const [guardando, setGuardando] = useState(false)                        // mientras guarda
   const [errorGuardar, setErrorGuardar] = useState<string | null>(null)    // si falla Firestore
-  const [subiendo, setSubiendo] = useState(false)                          // 🆕 mientras sube la foto a S3
-  const [errorSubida, setErrorSubida] = useState<string | null>(null)      // 🆕 si falla la subida
+  const [subiendo, setSubiendo] = useState(false)                          // mientras sube la foto a S3
+  const [errorSubida, setErrorSubida] = useState<string | null>(null)      // si falla la subida
 
   const errores = validar(values)                                         // se recalcula en CADA cambio → tiempo real
   const hayErrores = Object.keys(errores).length > 0
@@ -94,7 +95,7 @@ export function ProductFormPage() {
 
   const errorDe = (campo: Campo) => (tocados[campo] ? errores[campo] : undefined) // muestra el error solo si se tocó
 
-  const handleArchivo = async (e: ChangeEvent<HTMLInputElement>) => {     // 🆕 al elegir una foto
+  const handleArchivo = async (e: ChangeEvent<HTMLInputElement>) => {     // al elegir una foto
     const file = e.target.files?.[0]                                      // la foto elegida
     if (!file) return
     setErrorSubida(null)
@@ -137,7 +138,7 @@ export function ProductFormPage() {
     }
   }
 
-  if (cargando) return <p className="admin-estado">Cargando producto...</p>
+  if (cargando) return <Spinner texto="Cargando producto..." />           // LOADING
 
   if (noEncontrado) {
     return (
@@ -215,7 +216,7 @@ export function ProductFormPage() {
         {errorDe('category') && <span className="campo-error">{errorDe('category')}</span>}
       </label>
 
-      {/* 🆕 IMAGEN: se elige un archivo y se sube a S3 */}
+      {/* IMAGEN: se elige un archivo y se sube a S3 */}
       <div className={errorDe('imageUrl') || errorSubida ? 'campo con-error' : 'campo'}>
         Imagen (JPG, PNG o WEBP, hasta 5 MB)
         <input
@@ -237,7 +238,7 @@ export function ProductFormPage() {
 
       <div className="form-botones">
         <Link to="/admin/products" className="form-cancelar">Cancelar</Link>
-        <button type="submit" className="admin-btn" disabled={guardando || subiendo}> {/* ✏️ tampoco mientras sube */}
+        <button type="submit" className="admin-btn" disabled={guardando || subiendo}> {/* tampoco mientras sube */}
           {guardando ? 'Guardando...' : esEdicion ? 'Guardar cambios' : 'Crear producto'}
         </button>
       </div>

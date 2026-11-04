@@ -2,8 +2,9 @@
 import './AdminProductsPage.css'                                           // estilos de la tabla
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { deleteProduct, getAllProducts } from '../../services/adminProductsService'   // ✅ dos ../
+import { deleteProduct, getAllProducts } from '../../services/adminProductsService'
 import type { Product } from '../../types/Product'
+import { Spinner } from '../../components/common/Spinner'                 // círculo de carga
 
 export function AdminProductsPage() {
   const [products, setProducts] = useState<Product[]>([])                  // las joyas
@@ -42,7 +43,7 @@ export function AdminProductsPage() {
     }
   }
 
-  if (loading) return <p className="admin-estado">Cargando productos...</p> // LOADING
+  if (loading) return <Spinner texto="Cargando productos..." />            // LOADING
 
   if (error) {                                                             // ERROR
     return (

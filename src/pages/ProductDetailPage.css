@@ -1,0 +1,67 @@
+/* src/pages/ProductDetailPage.css: mobile-first (primero celular, después pantallas grandes) */
+
+.detalle {
+  margin: 16px;                           /* celular: margen chico */
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+  text-align: left;
+}
+.detalle-volver {
+  background: none;
+  border: none;
+  color: #c9a66b;                         /* dorado */
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0 0 12px;
+}
+.detalle-contenido {
+  display: flex;
+  flex-direction: column;                 /* celular: foto arriba, info abajo */
+  gap: 20px;
+}
+.detalle-imagen {
+  width: 100%;
+  aspect-ratio: 1 / 1;                    /* foto cuadrada */
+  object-fit: cover;
+  border-radius: 10px;
+  background: #f5f5f5;
+}
+.detalle-categoria { color: #8a6d3b; text-transform: capitalize; font-size: 0.9rem; }
+.detalle-info h2 { margin: 6px 0; }
+.detalle-precio { font-size: 1.4rem; font-weight: 600; margin: 4px 0 12px; }
+.detalle-descripcion { color: #555; line-height: 1.6; }
+.detalle-stock { color: #777; font-size: 0.9rem; }
+.detalle-acciones { display: flex; gap: 10px; margin-top: 16px; }
+.detalle-btn {
+  flex: 1;                                /* ocupa todo el ancho disponible */
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #c9a66b;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.detalle-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.detalle-favorito {
+  width: 48px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  color: #d4537e;                         /* rosa del corazón */
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+.detalle-ok { color: #3b6d11; margin-top: 12px; }
+.detalle-ok a { color: #c9a66b; font-weight: 600; }
+.detalle-error { color: #b3261e; }
+
+/* Pantallas grandes: foto a la izquierda, info a la derecha */
+@media (min-width: 768px) {
+  .detalle { max-width: 900px; margin: 40px auto; padding: 32px; }
+  .detalle-contenido { flex-direction: row; }
+  .detalle-imagen { width: 45%; }
+  .detalle-info { flex: 1; }
+}

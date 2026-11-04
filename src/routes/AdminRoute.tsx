@@ -2,12 +2,13 @@
 import '../pages/AuthPages.css'
 import { Link, Navigate, Outlet, useLocation } from 'react-router-dom'
 import { useAuth } from '../contexts/auth/useAuth'
+import { Spinner } from '../components/common/Spinner'   // círculo de carga
 
 export function AdminRoute() {                             // guardia: solo admins
   const { user, loading, isAdmin } = useAuth()
   const location = useLocation()
 
-  if (loading) return <p>Cargando...</p>
+  if (loading) return <Spinner />                        // todavía revisando la sesión
   if (!user) {                                             // sin sesión → a Ingresar
     return <Navigate to="/signin" replace state={{ from: location.pathname }} />
   }

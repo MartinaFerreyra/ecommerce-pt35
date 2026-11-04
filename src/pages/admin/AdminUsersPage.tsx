@@ -5,6 +5,7 @@ import { getAllUsers, updateUserRole } from '../../services/usersService'
 import type { UserListItem } from '../../services/usersService'
 import type { UserRole } from '../../types/User'
 import { useAuth } from '../../contexts/auth/useAuth'                     // para saber quién soy yo
+import { Spinner } from '../../components/common/Spinner'                // círculo de carga
 
 export function AdminUsersPage() {
   const { user: yo } = useAuth()                                          // el admin logueado
@@ -42,7 +43,7 @@ export function AdminUsersPage() {
     }
   }
 
-  if (loading) return <p className="admin-estado">Cargando usuarios...</p> // LOADING
+  if (loading) return <Spinner texto="Cargando usuarios..." />            // LOADING
 
   if (error) {                                                            // ERROR
     return (

@@ -19,6 +19,7 @@ import { AdminProductsPage } from '../pages/admin/AdminProductsPage'
 import { AdminOrdersPage } from '../pages/admin/AdminOrdersPage'
 import { AdminLayout } from '../components/layouts/AdminLayout'
 import { AdminUsersPage } from '../pages/admin/AdminUsersPage'
+import { ProductDetailPage } from '../pages/ProductDetailPage'                // detalle de producto
 
 export function AppRoutes() {
   return (
@@ -45,6 +46,7 @@ export function AppRoutes() {
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<AdminPage />} />
             <Route path="products" element={<AdminProductsPage />} />
+            <Route path="/products/:id" element={<ProductDetailPage />} />         {/* detalle */}
             <Route path="products/new" element={<ProductFormPage />} />
             <Route path="products/:id/edit" element={<ProductFormPage />} />
             <Route path="orders" element={<AdminOrdersPage />} />

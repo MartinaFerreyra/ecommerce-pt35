@@ -1,6 +1,6 @@
 //src/services/productsService.ts
 import type { Product, CategoryFilter } from '../types/Product'           // formularios
-import { collection, getDocs, query, where, orderBy, limit, startAfter } from 'firebase/firestore' // herramientas de consulta
+import { collection, doc, getDoc, getDocs, query, where, orderBy, limit, startAfter } from 'firebase/firestore' // herramientas de consulta
 import type { QueryDocumentSnapshot, DocumentData, QueryConstraint } from 'firebase/firestore'     // tipos de Firestore
 import { db } from './firebase'                                            // tu base de datos
 
@@ -55,5 +55,20 @@ export async function listProducts({
     items: docs.map(toProduct),
     lastDoc: docs[docs.length - 1] ?? null,
     hasMore: snapshot.docs.length > pageSize,
+  }
+}
+
+export async function getProductById(id: string): Promise<Product | null> { // una joya por su id
+  const snap = await getDoc(doc(db, 'products', id))                       // lee products/{id}
+  if (!snap.exists()) return null                                          // no existe
+  const data = snap.data()
+  return {
+    id: snap.id,
+    name: data.name,
+    description: data.description,
+    price: data.price,
+    category: data.category,
+    imageUrl: data.imageUrl,
+    stock: data.stock ?? 0,                                                // si no tiene stock cargado, 0
   }
 }

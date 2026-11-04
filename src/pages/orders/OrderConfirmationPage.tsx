@@ -4,12 +4,13 @@ import { Link, useParams } from 'react-router-dom'
 import { useOrder } from '../../hooks/useOrder'
 import { OrderStatusBadge } from '../../components/orders/OrderStatusBadge'
 import { OrderSummary } from '../../components/orders/OrderSummary'
+import { Spinner } from '../../components/common/Spinner'               // círculo de carga
 
 export function OrderConfirmationPage() {
   const { orderId } = useParams()                                        // /orders/:orderId/confirmation
   const { order, loading, error } = useOrder(orderId)
 
-  if (loading) return <p className="orders-estado">Cargando tu pedido...</p>
+  if (loading) return <Spinner texto="Cargando tu pedido..." />          // LOADING
 
   if (error || !order) {
     return (

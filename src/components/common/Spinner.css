@@ -1,0 +1,20 @@
+/* src/components/common/Spinner.css */
+.spinner-contenedor {
+  display: flex;
+  flex-direction: column;                 /* círculo arriba, texto abajo */
+  align-items: center;                    /* centrado */
+  gap: 10px;                              /* espacio entre los dos */
+  margin: 40px auto;                      /* separado y centrado */
+  color: #777;                            /* texto gris */
+}
+.spinner {
+  width: 36px;                            /* tamaño del círculo */
+  height: 36px;
+  border: 4px solid #f3ede1;              /* aro dorado clarito */
+  border-top-color: #c9a66b;              /* la parte dorada que se ve girar */
+  border-radius: 50%;                     /* lo hace redondo */
+  animation: girar 0.8s linear infinite;  /* gira sin parar */
+}
+@keyframes girar {
+  to { transform: rotate(360deg); }       /* una vuelta completa */
+}

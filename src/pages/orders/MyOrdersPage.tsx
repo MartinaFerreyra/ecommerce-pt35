@@ -7,6 +7,7 @@ import { getMyOrders } from '../../services/ordersService'               // wher
 import { OrderStatusBadge } from '../../components/orders/OrderStatusBadge'
 import { formatDate, formatPrice } from '../../utils/format'
 import type { Order } from '../../types/Order'
+import { Spinner } from '../../components/common/Spinner'               // círculo de carga
 
 export function MyOrdersPage() {
   const { user, isAdmin } = useAuth()                                    // usuario y si es admin
@@ -28,7 +29,7 @@ export function MyOrdersPage() {
   }, [user, isAdmin])
 
   if (isAdmin) return <Navigate to="/admin/orders" replace />            // admin → su panel
-  if (loading) return <p className="orders-estado">Cargando tus pedidos...</p>
+  if (loading) return <Spinner texto="Cargando tus pedidos..." />        // LOADING
 
   if (error) {
     return (

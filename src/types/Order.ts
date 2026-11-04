@@ -1,14 +1,13 @@
 //src/types/Order.ts
 import type { ProductCategory } from './Product'                       // categorías de joyas
 
-export type OrderStatus = 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled' // estados posibles
+export type OrderStatus = 'pending' | 'processing' | 'completed' | 'cancelled' // estados que pide la consigna
 
 export const ORDER_STATUS_LABELS: Record<OrderStatus, string> = {      // texto en español
-  pending: 'Pendiente',                                                // recién creado
-  processing: 'Procesando',                                            // el admin lo prepara
-  shipped: 'Enviado',                                                  // en camino
-  delivered: 'Entregado',                                              // llegó
-  cancelled: 'Cancelado',                                              // anulado
+  pending: 'Pendiente',                                                // recién creada
+  processing: 'Procesando',                                            // el admin la prepara
+  completed: 'Completada',                                             // entregada / finalizada
+  cancelled: 'Cancelada',                                              // anulada
 }
 
 export interface OrderItemSnapshot {        // "ticket": copia de la joya al momento de la compra
