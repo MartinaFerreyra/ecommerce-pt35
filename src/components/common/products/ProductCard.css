@@ -1,5 +1,7 @@
+/* src/components/common/products/ProductCard.css */
+
 .article {                               /* la tarjeta */
-  height: auto;                          /* se adapta al contenido */
+  height: 100%;                          /* todas las tarjetas de la fila, del mismo alto */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,28 +12,42 @@
   background: white;
 }
 
-/* ===== Link de la foto (lleva al detalle) ===== */
-.imagen-contenedor > a {
-  width: 100%;                            /* ocupa todo el ancho de la caja gris */
-  height: 100%;                           /* y todo el alto (260px) */
-  display: flex;                          /* para centrar la foto */
-  align-items: center;                    /* centrada vertical */
-  justify-content: center;                /* centrada horizontal */
+/* ===== Caja de la foto: MISMO TAMAÑO PARA TODAS ===== */
+.imagen-contenedor {
+  position: relative;                    /* para ubicar el corazón arriba a la derecha */
+  width: 100%;                           /* ancho de la tarjeta */
+  aspect-ratio: 1 / 1;                   /* caja cuadrada: todas iguales, se adapta al celular */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #efefef;             /* gris como el fondo de tus fotos */
+  border-radius: var(--radio);
+  margin-bottom: 12px;
+  overflow: hidden;                      /* nada se sale de la caja */
 }
 
-/* ===== Título como link, pero con el estilo de antes ===== */
-.card-titulo {
-  color: inherit;                         /* mismo color que el resto del título (no azul) */
-  text-decoration: none;                  /* sin subrayado */
-}
-.card-titulo:hover {
-  color: #c9a96e;                         /* dorado al pasar el mouse */
+/* ===== Link de la foto (lleva al detalle) ===== */
+.imagen-contenedor > a {
+  width: 100%;                           /* ocupa toda la caja */
+  height: 100%;
+  display: flex;                         /* centra la foto */
+  align-items: center;
+  justify-content: center;
 }
 
 .imagen-contenedor img {                 /* la foto */
   width: 100%;                           /* llena la caja... */
   height: 100%;                          /* ...sin pasarse */
-  object-fit: contain;                   /* se ve entera, sin deformarse */
+  object-fit: contain;                   /* se ve entera, sin deformarse ni recortarse */
+}
+
+/* ===== Título como link, pero con el estilo de antes ===== */
+.card-titulo {
+  color: inherit;                        /* mismo color (no azul) */
+  text-decoration: none;                 /* sin subrayado */
+}
+.card-titulo:hover {
+  color: #c9a96e;                        /* dorado al pasar el mouse */
 }
 
 .descripcion {
@@ -45,50 +61,46 @@
   font-size: 1.4rem;
 }
 
-.article .btn-comprar {
-  margin-top: auto;                      /* botón siempre abajo, alineado */
-}
-
-.imagen-contenedor {
-  position: relative;                 /* para ubicar el corazón arriba a la derecha */
-}
-
+/* ===== Corazón de favoritos ===== */
 .btn-favorito {
-  position: absolute;                 /* flota sobre la foto */
+  position: absolute;                    /* flota sobre la foto */
   top: 10px;
   right: 10px;
+  z-index: 1;                            /* por encima del link de la foto */
   width: 38px;
   height: 38px;
   border: none;
-  border-radius: 50%;                 /* círculo */
+  border-radius: 50%;                    /* círculo */
   background: white;
-  color: #c9a96e;                     /* dorado */
+  color: #c9a96e;                        /* dorado */
   font-size: 1.3rem;
   cursor: pointer;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .btn-favorito.activo {
-  color: #d4537e;                     /* rosa cuando es favorita */
+  color: #d4537e;                        /* rosa cuando es favorita */
 }
 
+/* ===== Botón Añadir al carrito ===== */
 .article .btn-comprar {
-  width: 100%;                        /* botón de lado a lado */
+  width: 100%;                           /* de lado a lado */
+  margin-top: auto;                      /* siempre abajo, alineado en todas las tarjetas */
   padding: 12px;
   border: none;
   border-radius: 6px;
-  background: #2f2f2f;                /* oscuro, como tu barra de categorías */
+  background: #2f2f2f;                   /* oscuro */
   color: white;
   font-size: 1rem;
   box-shadow: none;
 }
 
 .article .btn-comprar:hover:not(:disabled) {
-  background: #c9a96e;                /* dorado al pasar el mouse */
+  background: #c9a96e;                   /* dorado al pasar el mouse */
   transform: none;
 }
 
 .article .btn-comprar:disabled {
-  background: #ccc;                   /* gris si no hay stock */
+  background: #ccc;                      /* gris si no hay stock */
   cursor: not-allowed;
 }
