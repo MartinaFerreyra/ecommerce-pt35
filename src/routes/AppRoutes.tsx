@@ -5,13 +5,14 @@ import { ProtectedRoute } from './ProtectedRoutes'
 import { AdminRoute } from './AdminRoute'
 import { HomePage } from '../pages/HomePage'
 import { ProductsPage } from '../pages/ProductsPage'
+import { ProductDetailPage } from '../pages/ProductDetailPage'                // detalle de producto
 import { SignInPage } from '../pages/SignInPage'
 import { SignUpPage } from '../pages/SignUpPage'
 import { CartPage } from '../pages/CartPage'
 import { FavoritesPage } from '../pages/FavoritePage'
 import { CheckoutPage } from '../pages/CheckoutPage'
 import { MyOrdersPage } from '../pages/orders/MyOrdersPage'                    // historial
-import { OrderDetailPage } from '../pages/orders/OrderDetailPage'              // detalle
+import { OrderDetailPage } from '../pages/orders/OrderDetailPage'              // detalle de orden
 import { OrderConfirmationPage } from '../pages/orders/OrderConfirmationPage'  // confirmación
 import { AdminPage } from '../pages/AdminPage'
 import { ProductFormPage } from '../pages/admin/ProductFormPage'
@@ -19,7 +20,6 @@ import { AdminProductsPage } from '../pages/admin/AdminProductsPage'
 import { AdminOrdersPage } from '../pages/admin/AdminOrdersPage'
 import { AdminLayout } from '../components/layouts/AdminLayout'
 import { AdminUsersPage } from '../pages/admin/AdminUsersPage'
-import { ProductDetailPage } from '../pages/ProductDetailPage'                // detalle de producto
 
 export function AppRoutes() {
   return (
@@ -28,6 +28,7 @@ export function AppRoutes() {
         {/* Públicas */}
         <Route path="/" element={<HomePage />} />
         <Route path="/products" element={<ProductsPage />} />
+        <Route path="/products/:id" element={<ProductDetailPage />} />    {/* ✅ detalle: público */}
         <Route path="/signin" element={<SignInPage />} />
         <Route path="/signup" element={<SignUpPage />} />
 
@@ -41,12 +42,11 @@ export function AppRoutes() {
           <Route path="/orders/:orderId/confirmation" element={<OrderConfirmationPage />} />
         </Route>
 
-        {/* Admin */}
+        {/* Admin (rutas relativas: sin "/" adelante) */}
         <Route element={<AdminRoute />}>
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<AdminPage />} />
             <Route path="products" element={<AdminProductsPage />} />
-            <Route path="/products/:id" element={<ProductDetailPage />} />         {/* detalle */}
             <Route path="products/new" element={<ProductFormPage />} />
             <Route path="products/:id/edit" element={<ProductFormPage />} />
             <Route path="orders" element={<AdminOrdersPage />} />
