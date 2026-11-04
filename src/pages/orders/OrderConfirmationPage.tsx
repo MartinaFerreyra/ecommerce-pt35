@@ -1,17 +1,17 @@
 //src/pages/orders/OrderConfirmationPage.tsx
-import '../../components/orders/Orders.css'                              // estilos
-import { Link, useParams } from 'react-router-dom'                       // leer :orderId de la URL
-import { useOrder } from '../../hooks/useOrder'                          // cargar el pedido
+import '../../components/orders/Orders.css'
+import { Link, useParams } from 'react-router-dom'
+import { useOrder } from '../../hooks/useOrder'
 import { OrderStatusBadge } from '../../components/orders/OrderStatusBadge'
 import { OrderSummary } from '../../components/orders/OrderSummary'
 
 export function OrderConfirmationPage() {
-  const { orderId } = useParams()                                        // ej: /orders/abc123/confirmation
-  const { order, loading, error } = useOrder(orderId)                    // lo trae de Firestore
+  const { orderId } = useParams()                                        // /orders/:orderId/confirmation
+  const { order, loading, error } = useOrder(orderId)
 
-  if (loading) return <p className="orders-estado">Cargando tu pedido...</p> // LOADING
+  if (loading) return <p className="orders-estado">Cargando tu pedido...</p>
 
-  if (error || !order) {                                                 // ERROR
+  if (error || !order) {
     return (
       <section className="orders-card">
         <p className="orders-error">{error ?? 'No encontramos ese pedido.'}</p>
@@ -23,9 +23,10 @@ export function OrderConfirmationPage() {
   return (
     <section className="orders-card">
       <h2>¡Gracias por tu compra! 💍</h2>
-      <p>Número de pedido: <code className="order-id">{order.id}</code></p>  {/* el orderId */}
-      <p>Estado: <OrderStatusBadge status={order.status} /></p>             {/* estado */}
-      <OrderSummary order={order} />                                         {/* resumen de joyas */}
+      <p>Número de pedido: <code className="order-id">{order.id}</code></p>
+      <p>Estado: <OrderStatusBadge status={order.status} /></p>
+      <p className="order-datos">{order.address}</p>                       {/* domicilio o retiro */}
+      <OrderSummary order={order} />
       <p className="orders-nota">Compra simulada: no se realizó ningún cobro.</p>
       <div className="orders-acciones">
         <Link to="/orders" className="orders-btn">Ver mis pedidos</Link>

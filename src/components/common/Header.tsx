@@ -7,13 +7,13 @@ import { useFavorites } from '../../contexts/favorites/useFavorites'
 import { CategoryBar } from './products/CategoryBar'
 
 export function Header() {
-  const { user, isAuthenticated, logout } = useAuth()      // sesión
-  const { itemCount } = useCart()                          // joyas en el carrito
-  const { favoritesCount } = useFavorites()                // favoritas
+  const { user, isAuthenticated, isAdmin, logout } = useAuth()           // sesión + ¿es admin?
+  const { itemCount } = useCart()                                        // joyas en el carrito
+  const { favoritesCount } = useFavorites()                              // favoritas
   const navigate = useNavigate()
-  const { pathname } = useLocation()                       // URL actual
+  const { pathname } = useLocation()                                     // URL actual
 
-  const handleLogout = async () => {                       // botón Salir
+  const handleLogout = async () => {                                     // botón Salir
     await logout()
     navigate('/')
   }
@@ -36,8 +36,10 @@ export function Header() {
             <NavLink to="/cart">Carrito</NavLink>
             <NavLink to="/favorites">Favoritos</NavLink>
             <NavLink to="/checkout">Pago</NavLink>
-            {isAuthenticated && <NavLink to="/orders">Mis pedidos</NavLink>}  {/* solo si está logueada */}
-            <NavLink to="/admin">Admin</NavLink>           {/* el guardia controla quién entra */}
+            {isAuthenticated && !isAdmin && (                            // solo CLIENTES logueados
+              <NavLink to="/orders">Mis pedidos</NavLink>
+            )}
+            <NavLink to="/admin">Admin</NavLink>                         {/* el guardia controla quién entra */}
           </div>
 
           <div className="nav-derecha">
@@ -56,7 +58,7 @@ export function Header() {
         </nav>
       </header>
 
-      {pathname === '/products' && <CategoryBar />}       {/* barra de categorías solo en Productos */}
+      {pathname === '/products' && <CategoryBar />}                      {/* categorías solo en Productos */}
     </>
   )
 }

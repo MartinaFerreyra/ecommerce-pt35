@@ -1,21 +1,21 @@
 //src/pages/orders/MyOrdersPage.tsx
-import '../../components/orders/Orders.css'                              // estilos
+import '../../components/orders/Orders.css'
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { useAuth } from '../../contexts/auth/useAuth'                    // quién está logueado
+import { Link, Navigate } from 'react-router-dom'                        // Navigate = redirigir
+import { useAuth } from '../../contexts/auth/useAuth'
 import { getMyOrders } from '../../services/ordersService'               // where + orderBy
 import { OrderStatusBadge } from '../../components/orders/OrderStatusBadge'
 import { formatDate, formatPrice } from '../../utils/format'
 import type { Order } from '../../types/Order'
 
 export function MyOrdersPage() {
-  const { user } = useAuth()                                             // el usuario actual
-  const [orders, setOrders] = useState<Order[]>([])                      // sus pedidos
-  const [loading, setLoading] = useState(true)                           // LOADING
-  const [error, setError] = useState<string | null>(null)                // ERROR
+  const { user, isAdmin } = useAuth()                                    // usuario y si es admin
+  const [orders, setOrders] = useState<Order[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    if (!user) return                                                    // la ruta es protegida
+    if (!user || isAdmin) return                                         // el admin no usa esta página
     let cancelado = false
     getMyOrders(user.id)                                                 // SOLO los de este usuario
       .then((data) => { if (!cancelado) setOrders(data) })
@@ -25,8 +25,9 @@ export function MyOrdersPage() {
       })
       .finally(() => { if (!cancelado) setLoading(false) })
     return () => { cancelado = true }
-  }, [user])
+  }, [user, isAdmin])
 
+  if (isAdmin) return <Navigate to="/admin/orders" replace />            // admin → su panel
   if (loading) return <p className="orders-estado">Cargando tus pedidos...</p>
 
   if (error) {
@@ -40,18 +41,18 @@ export function MyOrdersPage() {
   return (
     <section className="orders-card">
       <h2>📦 Mis pedidos</h2>
-      {orders.length === 0 ? (                                           // EMPTY
+      {orders.length === 0 ? (
         <>
           <p>Todavía no hiciste ninguna compra.</p>
           <Link to="/products" className="orders-btn">Ver la colección</Link>
         </>
       ) : (
         <ul className="orders-lista">
-          {orders.map((o) => (                                           // cada pedido
+          {orders.map((o) => (
             <li key={o.id} className="orders-lista-item">
-              <Link to={`/orders/${o.id}`}>                              {/* al detalle */}
+              <Link to={`/orders/${o.id}`}>                              {/* clic → detalle */}
                 <div>
-                  <strong>Pedido #{o.id.slice(0, 8)}</strong><br />      {/* número corto */}
+                  <strong>Pedido #{o.id.slice(0, 8)}</strong><br />
                   <small>{formatDate(o.createdAt)} · {o.itemCount} {o.itemCount === 1 ? 'joya' : 'joyas'}</small>
                 </div>
                 <strong>{formatPrice(o.total)}</strong>

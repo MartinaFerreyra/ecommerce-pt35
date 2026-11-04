@@ -1,24 +1,24 @@
 //src/pages/admin/AdminOrdersPage.tsx
-import './AdminProductsPage.css'                                           // mismos estilos de tabla
-import '../../components/orders/Orders.css'                               // etiquetas de estado
+import './AdminProductsPage.css'                                           // estilos de tabla
+import '../../components/orders/Orders.css'                               // etiquetas y desplegables
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { getAllOrders, updateOrderStatus } from '../../services/ordersService'
-import { ORDER_STATUS_LABELS } from '../../types/Order'                    // textos en español
+import { ORDER_STATUS_LABELS } from '../../types/Order'
 import type { Order, OrderStatus } from '../../types/Order'
 import { formatDate, formatPrice } from '../../utils/format'
-import { OrderStatusBadge } from '../../components/orders/OrderStatusBadge' // etiqueta de color
+import { OrderStatusBadge } from '../../components/orders/OrderStatusBadge'
 
-const ESTADOS = Object.keys(ORDER_STATUS_LABELS) as OrderStatus[]          // ['pending','paid','shipped','cancelled']
-type Filtro = OrderStatus | 'todos'                                        // filtro elegido
+const ESTADOS = Object.keys(ORDER_STATUS_LABELS) as OrderStatus[]          // los 5 estados
+type Filtro = OrderStatus | 'todos'
 
 export function AdminOrdersPage() {
-  const [orders, setOrders] = useState<Order[]>([])                        // todos los pedidos
-  const [loading, setLoading] = useState(true)                             // LOADING
-  const [error, setError] = useState<string | null>(null)                  // ERROR
+  const [orders, setOrders] = useState<Order[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const [updatingId, setUpdatingId] = useState<string | null>(null)        // cuál se está guardando
-  const [filtro, setFiltro] = useState<Filtro>('todos')                    // FILTRO por estado
-  const [recarga, setRecarga] = useState(0)                                // para reintentar
+  const [filtro, setFiltro] = useState<Filtro>('todos')                    // FILTRO
+  const [recarga, setRecarga] = useState(0)
 
   useEffect(() => {
     let cancelado = false
@@ -32,7 +32,7 @@ export function AdminOrdersPage() {
     return () => { cancelado = true }
   }, [recarga])
 
-  const visibles = useMemo(                                                // pedidos que pasan el filtro
+  const visibles = useMemo(                                                // pedidos filtrados
     () => (filtro === 'todos' ? orders : orders.filter((o) => o.status === filtro)),
     [orders, filtro],
   )
@@ -46,10 +46,10 @@ export function AdminOrdersPage() {
     setRecarga((n) => n + 1)
   }
 
-  const cambiarEstado = async (id: string, status: OrderStatus) => {       // al cambiar el desplegable
+  const cambiarEstado = async (id: string, status: OrderStatus) => {       // al cambiar Acción
     setUpdatingId(id)
     try {
-      await updateOrderStatus(id, status)                                  // guarda status + updatedAt
+      await updateOrderStatus(id, status)
       setOrders((prev) => prev.map((o) => (o.id === id ? { ...o, status, updatedAt: new Date() } : o)))
     } catch (err) {
       console.error('update order error:', err)
@@ -59,9 +59,9 @@ export function AdminOrdersPage() {
     }
   }
 
-  if (loading) return <p className="admin-estado">Cargando pedidos...</p>  // LOADING
+  if (loading) return <p className="admin-estado">Cargando pedidos...</p>
 
-  if (error) {                                                             // ERROR
+  if (error) {
     return (
       <div className="admin-estado">
         <p className="admin-error">{error}</p>
@@ -70,59 +70,54 @@ export function AdminOrdersPage() {
     )
   }
 
-    return (
+  return (
     <div>
       <div className="admin-encabezado">
-        <h2>Lista de órdenes ({visibles.length})</h2>                       {/* título */}
+        <h2>Lista de órdenes ({visibles.length})</h2>
       </div>
 
-      <select                                                              // FILTRO por estado
-        className="admin-filtro"
-        value={filtro}
-        onChange={(e) => setFiltro(e.target.value as Filtro)}
-      >
+      <select className="admin-filtro" value={filtro} onChange={(e) => setFiltro(e.target.value as Filtro)}>
         <option value="todos">Todas ({contar('todos')})</option>
         {ESTADOS.map((s) => (
           <option key={s} value={s}>{ORDER_STATUS_LABELS[s]} ({contar(s)})</option>
         ))}
       </select>
 
-      {visibles.length === 0 ? (                                          // EMPTY
+      {visibles.length === 0 ? (
         <p className="admin-estado">No hay órdenes con ese estado.</p>
       ) : (
         <div className="tabla-scroll">
           <table className="admin-tabla">
             <thead>
               <tr>
-                <th>ID</th>                                               {/* número de orden */}
-                <th>Usuario</th>                                          {/* quién compró */}
-                <th>Total</th>                                            {/* cuánto */}
-                <th>Estado</th>                                           {/* etiqueta de color */}
-                <th>Acción</th>                                           {/* cambiar estado */}
+                <th>ID</th>
+                <th>Usuario</th>
+                <th>Total</th>
+                <th>Estado</th>
+                <th>Acción</th>
               </tr>
             </thead>
             <tbody>
               {visibles.map((o) => (
                 <tr key={o.id} className={updatingId === o.id ? 'fila-borrando' : ''}>
                   <td>
-                    <Link to={`/orders/${o.id}`} className="admin-id">   {/* clic → detalle */}
-                      {o.id}
-                    </Link>
+                    <Link to={`/orders/${o.id}`} className="admin-id">{o.id}</Link> {/* clic → detalle */}
                     <br />
-                    <small>{formatDate(o.createdAt)}</small>              {/* fecha debajo */}
+                    <small>{formatDate(o.createdAt)}</small>
                   </td>
                   <td>
                     {o.customerName}<br />
-                    <small>{o.userEmail}</small>                          {/* email más legible que el uid */}
+                    <small>{o.userEmail}</small><br />
+                    <small>{o.address}</small>                            {/* localidad o retiro */}
                   </td>
                   <td>{formatPrice(o.total)}</td>
-                  <td><OrderStatusBadge status={o.status} /></td>         {/* Pendiente / Enviado... */}
+                  <td><OrderStatusBadge status={o.status} /></td>
                   <td>
                     <select
                       className="admin-filtro"
                       value={o.status}
                       onChange={(e) => cambiarEstado(o.id, e.target.value as OrderStatus)}
-                      disabled={updatingId === o.id}                      // mientras guarda, bloqueado
+                      disabled={updatingId === o.id}
                     >
                       {ESTADOS.map((s) => (
                         <option key={s} value={s}>{ORDER_STATUS_LABELS[s]}</option>

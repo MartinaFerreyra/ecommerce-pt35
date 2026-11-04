@@ -2,20 +2,20 @@
 import {
   addDoc, collection, doc, getDoc, getDocs, orderBy, query, serverTimestamp, updateDoc, where,
 } from 'firebase/firestore'                                               // funciones de Firestore
-import type { DocumentData } from 'firebase/firestore'                   // tipo de un documento crudo
+import type { DocumentData } from 'firebase/firestore'                   // documento crudo
 import { db } from './firebase'                                          // la base de datos
-import type { NewOrder, Order, OrderItemSnapshot, OrderStatus } from '../types/Order' // contratos
+import type { NewOrder, Order, OrderItemSnapshot, OrderStatus } from '../types/Order'
 
-const ordersRef = collection(db, 'orders')                               // la colección "orders"
+const ordersRef = collection(db, 'orders')                               // colección "orders"
 
-function toOrder(id: string, data: DocumentData): Order {                // documento de Firestore → Order
+function toOrder(id: string, data: DocumentData): Order {                // documento → Order
   const items: OrderItemSnapshot[] = (data.items ?? []).map((item: DocumentData) => ({
-    productId: item.productId,                                           // copia cada campo del ticket
+    productId: item.productId,
     name: item.name,
     price: item.price,
     quantity: item.quantity,
-    subtotal: item.subtotal ?? item.price * item.quantity,               // pedidos viejos no tenían subtotal
-    imageUrl: item.imageUrl ?? null,                                     // pedidos viejos no tenían foto
+    subtotal: item.subtotal ?? item.price * item.quantity,               // órdenes viejas: lo calcula
+    imageUrl: item.imageUrl ?? null,                                     // órdenes viejas: sin foto
     category: item.category,
   }))
   return {
@@ -23,9 +23,13 @@ function toOrder(id: string, data: DocumentData): Order {                // docu
     userId: data.userId,
     userEmail: data.userEmail,
     customerName: data.customerName,
-    address: data.address,
+    address: data.address ?? '',
+    shipping: data.shipping ?? {                                         // órdenes viejas: sin detalle
+      method: 'delivery', cost: 0, locality: null, pickupPoint: null,
+    },
     items,
-    itemCount: data.itemCount ?? items.reduce((sum, item) => sum + item.quantity, 0), // calcula si falta
+    itemCount: data.itemCount ?? items.reduce((sum, item) => sum + item.quantity, 0),
+    subtotal: data.subtotal ?? data.total,                               // órdenes viejas: subtotal = total
     total: data.total,
     status: data.status,
     createdAt: data.createdAt?.toDate(),                                 // Timestamp → Date
@@ -33,33 +37,33 @@ function toOrder(id: string, data: DocumentData): Order {                // docu
   }
 }
 
-export async function createOrder(order: NewOrder): Promise<string> {    // guarda un pedido nuevo
-  const ref = await addDoc(ordersRef, {                                  // addDoc = ID automático
-    ...order,                                                            // datos del checkout
-    status: 'pending',                                                   // todo pedido arranca pendiente
-    createdAt: serverTimestamp(),                                        // hora del SERVIDOR (no de la compu)
-    updatedAt: serverTimestamp(),                                        // igual al crearse
+export async function createOrder(order: NewOrder): Promise<string> {    // crea un pedido
+  const ref = await addDoc(ordersRef, {                                  // ID único automático
+    ...order,
+    status: 'pending',                                                   // arranca pendiente
+    createdAt: serverTimestamp(),                                        // hora del servidor
+    updatedAt: serverTimestamp(),
   })
   return ref.id                                                          // devuelve el orderId
 }
 
-export async function getOrderById(orderId: string): Promise<Order | null> { // un pedido por su ID
-  const snap = await getDoc(doc(db, 'orders', orderId))                  // lee el documento
-  if (!snap.exists()) return null                                        // no existe
-  return toOrder(snap.id, snap.data())                                   // lo convierte
+export async function getOrderById(orderId: string): Promise<Order | null> { // un pedido por ID
+  const snap = await getDoc(doc(db, 'orders', orderId))
+  if (!snap.exists()) return null
+  return toOrder(snap.id, snap.data())
 }
 
 export async function getMyOrders(userId: string): Promise<Order[]> {    // pedidos de UN usuario
   const q = query(
     ordersRef,
     where('userId', '==', userId),                                       // where: solo los míos
-    orderBy('createdAt', 'desc'),                                        // orderBy: los más nuevos primero
+    orderBy('createdAt', 'desc'),                                        // orderBy: más nuevos primero
   )
-  const snapshot = await getDocs(q)                                      // ejecuta la consulta
-  return snapshot.docs.map((d) => toOrder(d.id, d.data()))               // convierte cada uno
+  const snapshot = await getDocs(q)
+  return snapshot.docs.map((d) => toOrder(d.id, d.data()))
 }
 
-export async function getAllOrders(): Promise<Order[]> {                 // todos los pedidos (admin)
+export async function getAllOrders(): Promise<Order[]> {                 // todos (admin)
   const snapshot = await getDocs(query(ordersRef, orderBy('createdAt', 'desc')))
   return snapshot.docs.map((d) => toOrder(d.id, d.data()))
 }
@@ -68,5 +72,5 @@ export async function updateOrderStatus(orderId: string, status: OrderStatus): P
   await updateDoc(doc(db, 'orders', orderId), {
     status,                                                              // nuevo estado
     updatedAt: serverTimestamp(),                                        // cuándo cambió
-  })                                                                     // SOLO estos 2 campos (lo exige la regla)
+  })
 }

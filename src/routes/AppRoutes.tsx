@@ -10,49 +10,49 @@ import { SignUpPage } from '../pages/SignUpPage'
 import { CartPage } from '../pages/CartPage'
 import { FavoritesPage } from '../pages/FavoritePage'
 import { CheckoutPage } from '../pages/CheckoutPage'
+import { MyOrdersPage } from '../pages/orders/MyOrdersPage'                    // historial
+import { OrderDetailPage } from '../pages/orders/OrderDetailPage'              // detalle
+import { OrderConfirmationPage } from '../pages/orders/OrderConfirmationPage'  // confirmación
 import { AdminPage } from '../pages/AdminPage'
 import { ProductFormPage } from '../pages/admin/ProductFormPage'
 import { AdminProductsPage } from '../pages/admin/AdminProductsPage'
 import { AdminOrdersPage } from '../pages/admin/AdminOrdersPage'
 import { AdminLayout } from '../components/layouts/AdminLayout'
 import { AdminUsersPage } from '../pages/admin/AdminUsersPage'
-import { MyOrdersPage } from '../pages/orders/MyOrdersPage'                       // historial
-import { OrderDetailPage } from '../pages/orders/OrderDetailPage'                 // detalle
-import { OrderConfirmationPage } from '../pages/orders/OrderConfirmationPage'     // confirmación
 
 export function AppRoutes() {
   return (
     <Routes>
-      <Route element={<Layout />}>                         {/* todas con Header y Footer */}
-        {/* Públicas: */}
+      <Route element={<Layout />}>                                        {/* Header y Footer */}
+        {/* Públicas */}
         <Route path="/" element={<HomePage />} />
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/signin" element={<SignInPage />} />
         <Route path="/signup" element={<SignUpPage />} />
 
-        {/* Protegidas: */}
+        {/* Protegidas (hay que estar logueado) */}
         <Route element={<ProtectedRoute />}>
           <Route path="/cart" element={<CartPage />} />
           <Route path="/favorites" element={<FavoritesPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
-          <Route path="/orders" element={<MyOrdersPage />} />                                  {/* historial */}
-          <Route path="/orders/:orderId" element={<OrderDetailPage />} />                      {/* detalle */}
-          <Route path="/orders/:orderId/confirmation" element={<OrderConfirmationPage />} />   {/* confirmación */}
+          <Route path="/orders" element={<MyOrdersPage />} />
+          <Route path="/orders/:orderId" element={<OrderDetailPage />} />
+          <Route path="/orders/:orderId/confirmation" element={<OrderConfirmationPage />} />
         </Route>
 
-        {/* Admin: */}
+        {/* Admin */}
         <Route element={<AdminRoute />}>
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<AdminPage />} />
             <Route path="products" element={<AdminProductsPage />} />
-            <Route path="products/new" element={<ProductFormPage />} />       {/* 🆕 crear */}
-            <Route path="products/:id/edit" element={<ProductFormPage />} />  {/* 🆕 editar */}
+            <Route path="products/new" element={<ProductFormPage />} />
+            <Route path="products/:id/edit" element={<ProductFormPage />} />
             <Route path="orders" element={<AdminOrdersPage />} />
             <Route path="users" element={<AdminUsersPage />} />
           </Route>
         </Route>
 
-        <Route path="*" element={<Navigate to="/" replace />} />  {/* URL inexistente → inicio */}
+        <Route path="*" element={<Navigate to="/" replace />} />          {/* URL inexistente → inicio */}
       </Route>
     </Routes>
   )

@@ -1,7 +1,7 @@
 //src/hooks/useOrder.ts
-import { useEffect, useState } from 'react'                              // estado y efectos
-import { getOrderById } from '../services/ordersService'                 // leer un pedido
-import type { Order } from '../types/Order'                              // contrato
+import { useEffect, useState } from 'react'
+import { getOrderById } from '../services/ordersService'
+import type { Order } from '../types/Order'
 
 export function useOrder(orderId: string | undefined) {                  // carga un pedido por ID
   const [order, setOrder] = useState<Order | null>(null)                 // el pedido
@@ -9,21 +9,21 @@ export function useOrder(orderId: string | undefined) {                  // carg
   const [error, setError] = useState<string | null>(null)                // ¿falló?
 
   useEffect(() => {
-    if (!orderId) return                                                 // sin ID no hay nada que buscar
-    let cancelado = false                                                // por si el usuario se va antes
+    if (!orderId) return
+    let cancelado = false                                                // por si se va antes
     getOrderById(orderId)
       .then((data) => {
         if (cancelado) return
-        if (data) setOrder(data)                                         // lo encontró
-        else setError('No encontramos ese pedido.')                      // no existe
+        if (data) setOrder(data)
+        else setError('No encontramos ese pedido.')
       })
       .catch((err) => {
-        console.error('order error:', err)                               // detalle técnico en consola
-        if (!cancelado) setError('No se pudo cargar el pedido.')         // mensaje amigable
+        console.error('order error:', err)
+        if (!cancelado) setError('No se pudo cargar el pedido.')
       })
       .finally(() => { if (!cancelado) setLoading(false) })
-    return () => { cancelado = true }                                    // limpieza
+    return () => { cancelado = true }
   }, [orderId])
 
-  return { order, loading, error }                                       // lo que devuelve el hook
+  return { order, loading, error }
 }
