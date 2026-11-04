@@ -10,15 +10,22 @@
   background: white;
 }
 
-.imagen-contenedor {                     /* la caja de la foto */
-  width: 100%;                           /* ancho de la tarjeta */
-  height: 260px;                         /* ← ALTO DE TODAS LAS FOTOS (cambiá este número) */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #efefef;             /* gris como el fondo de tus fotos */
-  border-radius: var(--radio);
-  margin-bottom: 12px;
+/* ===== Link de la foto (lleva al detalle) ===== */
+.imagen-contenedor > a {
+  width: 100%;                            /* ocupa todo el ancho de la caja gris */
+  height: 100%;                           /* y todo el alto (260px) */
+  display: flex;                          /* para centrar la foto */
+  align-items: center;                    /* centrada vertical */
+  justify-content: center;                /* centrada horizontal */
+}
+
+/* ===== Título como link, pero con el estilo de antes ===== */
+.card-titulo {
+  color: inherit;                         /* mismo color que el resto del título (no azul) */
+  text-decoration: none;                  /* sin subrayado */
+}
+.card-titulo:hover {
+  color: #c9a96e;                         /* dorado al pasar el mouse */
 }
 
 .imagen-contenedor img {                 /* la foto */
